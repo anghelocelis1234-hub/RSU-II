@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 960" width="540" height="960">
+  <defs>
+    <linearGradient id="deskGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e7d3b8"/>
+      <stop offset="100%" stop-color="#cfa97e"/>
+    </linearGradient>
+    <linearGradient id="paperGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f7f4ec"/>
+    </linearGradient>
+    <filter id="softShadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#5c3d22" flood-opacity="0.18"/>
+    </filter>
+    <filter id="penShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="4" dy="8" stdDeviation="5" flood-color="#3b2614" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+
+  <!-- Warm wooden desk background -->
+  <rect width="540" height="960" fill="url(#deskGrad)"/>
+  <!-- Subtle wood grain lines -->
+  <path d="M0 140 Q270 120 540 150 M0 380 Q270 365 540 390 M0 650 Q270 635 540 660 M0 850 Q270 835 540 860" stroke="#b98f62" stroke-width="2" fill="none" opacity="0.28"/>
+
+  <!-- Soft sunlight beam from top-left -->
+  <polygon points="0,0 380,0 540,420 540,960 0,720" fill="#fff7e6" opacity="0.22"/>
+
+  <!-- Warm ceramic mug at top right -->
+  <g transform="translate(415, 130)" filter="url(#softShadow)">
+    <path d="M36,-14 C56,-14 56,18 36,18" fill="none" stroke="#2f6f5e" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="0" cy="0" r="44" fill="#2f6f5e"/>
+    <circle cx="0" cy="0" r="35" fill="#f3ede2"/>
+    <circle cx="0" cy="0" r="30" fill="#8b5a2b"/>
+    <ellipse cx="-8" cy="-8" rx="10" ry="5" fill="#a8733e" opacity="0.6" transform="rotate(-25 -8 -8)"/>
+  </g>
+
+  <!-- Hoja bond (crisp white sheet of paper) -->
+  <g transform="translate(270, 500) rotate(-2.5)" filter="url(#softShadow)">
+    <rect x="-175" y="-255" width="350" height="510" rx="6" fill="url(#paperGrad)"/>
+    <!-- Subtle ruled/guide lines -->
+    <line x1="-140" y1="-175" x2="140" y2="-175" stroke="#d8d2c5" stroke-width="2"/>
+    <line x1="-140" y1="-120" x2="140" y2="-120" stroke="#e8e2d5" stroke-width="1.5"/>
+    <line x1="-140" y1="-80" x2="140" y2="-80" stroke="#e8e2d5" stroke-width="1.5"/>
+    <line x1="-140" y1="-40" x2="140" y2="-40" stroke="#e8e2d5" stroke-width="1.5"/>
+    <line x1="-140" y1="20" x2="140" y2="20" stroke="#d8d2c5" stroke-width="2"/>
+    <line x1="-140" y1="70" x2="140" y2="70" stroke="#e8e2d5" stroke-width="1.5"/>
+    <line x1="-140" y1="110" x2="140" y2="110" stroke="#e8e2d5" stroke-width="1.5"/>
+    <line x1="-140" y1="150" x2="140" y2="150" stroke="#e8e2d5" stroke-width="1.5"/>
+    <!-- Two small numbered circles on paper (no text) -->
+    <circle cx="-122" cy="-142" r="10" fill="none" stroke="#2f6f5e" stroke-width="2.5"/>
+    <circle cx="-122" cy="48" r="10" fill="none" stroke="#d97706" stroke-width="2.5"/>
+  </g>
+
+  <!-- Blue ballpoint pen (lapicero) -->
+  <g transform="translate(350, 530) rotate(22)" filter="url(#penShadow)">
+    <rect x="-9" y="-145" width="18" height="260" rx="7" fill="#1d4ed8"/>
+    <rect x="-9" y="-145" width="7" height="260" rx="3" fill="#3b82f6" opacity="0.5"/>
+    <!-- Pen grip & tip -->
+    <polygon points="-9,115 9,115 2,148 -2,148" fill="#cbd5e1"/>
+    <polygon points="-2,148 2,148 0,158" fill="#1e293b"/>
+    <!-- Pen clip -->
+    <rect x="7" y="-128" width="5" height="62" rx="2.5" fill="#e2e8f0"/>
+    <rect x="-6" y="-154" width="12" height="12" rx="3" fill="#e2e8f0"/>
+  </g>
+
+  <!-- Wooden pencil (lápiz) -->
+  <g transform="translate(155, 635) rotate(-28)" filter="url(#penShadow)">
+    <!-- Eraser -->
+    <rect x="-8" y="-135" width="16" height="20" rx="4" fill="#f472b6"/>
+    <rect x="-8" y="-118" width="16" height="10" fill="#cbd5e1"/>
+    <!-- Yellow body -->
+    <rect x="-8" y="-108" width="16" height="215" fill="#f59e0b"/>
+    <rect x="-3" y="-108" width="6" height="215" fill="#fbbf24"/>
+    <!-- Wood cone & graphite tip -->
+    <polygon points="-8,107 8,107 0,136" fill="#f3d5b5"/>
+    <polygon points="-3,125 3,125 0,136" fill="#374151"/>
+  </g>
+</svg>
