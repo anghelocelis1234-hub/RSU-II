@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entre clases y decisiones — Caso Mateo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Barra superior con temporizador en la parte superior central -->
+  <header id="topbar" class="topbar hidden">
+    <div class="topbar-inner topbar-3col">
+      <div class="brand-compact">
+        <div class="brand-badge" aria-hidden="true">M</div>
+        <span class="brand-short">Caso Mateo</span>
+      </div>
+
+      <!-- Temporizador en la parte superior central -->
+      <div id="centerTimerPill" class="center-timer-pill" data-phase="1" aria-live="polite">
+        <span id="phaseBadge" class="phase-badge">Análisis</span>
+        <strong id="phaseTimerDisplay" class="phase-countdown">10:00</strong>
+        <span class="timer-sep">·</span>
+        <span id="totalTimerDisplay" class="total-countdown" title="Tiempo total restante">20:00</span>
+        <span id="clockDisplay" class="clock-display"></span>
+      </div>
+
+      <div class="topbar-right">
+        <button id="calibrateToggleBtn" class="pill-btn pill-btn-sm" type="button" title="Mover/calibrar coordenadas (x%, y%)">
+          Calibrar
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Alerta de cambio de fase (10 min / 20 min) -->
+  <div id="alarmBanner" class="alarm-banner hidden" role="alert">
+    <div class="alarm-banner-inner">
+      <span id="alarmBannerText"></span>
+      <button id="dismissAlarmBtn" class="alarm-dismiss-btn" type="button">Entendido</button>
+    </div>
+  </div>
+
+  <main class="main-wrap">
+    <!-- PANTALLA DE INICIO -->
+    <section id="startView" class="start-screen">
+      <div class="start-card">
+        <div class="start-badge">Taller · 20 minutos</div>
+        <h1 class="start-title">Entre clases y decisiones</h1>
+        <p class="start-sub">
+          Caso de <strong>Mateo</strong> (11 viñetas). Exploren cada escena, analicen en equipo y compartan sus conclusiones.
+        </p>
+
+        <div class="phase-plan">
+          <div class="phase-plan-item">
+            <span class="phase-dot p1">1</span>
+            <div>
+              <strong>10 min · Análisis en equipo</strong>
+              <span>Recorrido de viñetas y apuntes en hoja bond</span>
+            </div>
+          </div>
+          <div class="phase-plan-item">
+            <span class="phase-dot p2">2</span>
+            <div>
+              <strong>10 min · Compartir conclusiones</strong>
+              <span>Alarma automática al terminar los primeros 10 min</span>
+            </div>
+          </div>
+        </div>
+
+        <button id="startCaseBtn" class="btn-start-case" type="button">
+          Empezar a analizar el caso
+        </button>
+
+        <div class="sync-box">
+          <div class="sync-clock-row">
+            <span>Hora del reloj: <strong id="startClockDisplay">--:--:--</strong></span>
+          </div>
+          <label class="sync-check">
+            <input id="syncScheduleChk" type="checkbox" />
+            <span>Sincronizar con horario del taller</span>
+          </label>
+          <div id="syncTimeRow" class="sync-time-row hidden">
+            <label for="syncStartInput">Hora de inicio:</label>
+            <input id="syncStartInput" type="time" value="09:50" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISTA DE VIÑETAS -->
+    <section id="storyView" class="story-stage hidden">
+      <div class="canvas-shell">
+        <div id="sceneFrame" class="scene-frame">
+          <img id="sceneImg" class="scene-img" src="" alt="" />
+          <div id="sceneFallback" class="scene-fallback hidden">
+            <strong id="fallbackTitle"></strong>
+            <p style="font-size: 13px; opacity: 0.85; margin-top: 8px;">Viñeta 9:16</p>
+          </div>
+
+          <div id="sceneTimeOverlay" class="scene-time-overlay"></div>
+          <div id="sceneStepOverlay" class="scene-step-overlay"></div>
+          <div id="hotspotsLayer"></div>
+
+          <!-- Panel desplegable al tocar un punto -->
+          <div id="hotspotDrawer" class="hotspot-drawer hidden" role="dialog" aria-live="polite">
+            <div class="drawer-header">
+              <span id="hotspotCatBadge" class="cat-badge">Pista</span>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span id="hotspotCoordTag" class="coord-tag hidden"></span>
+                <button id="closeDrawerBtn" class="drawer-close" type="button" aria-label="Cerrar pista">✕</button>
+              </div>
+            </div>
+            <h2 id="hotspotTitle" class="drawer-title"></h2>
+            <p id="hotspotNote" class="drawer-note"></p>
+            <div id="hotspotShelfList" class="shelf-list hidden"></div>
+            <div id="hotspotPromptBox" class="drawer-prompt">
+              <strong>Pista para el equipo:</strong>
+              <span id="hotspotPromptText"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navegación discreta Anterior / Siguiente -->
+        <nav class="discrete-nav" aria-label="Navegación de viñetas">
+          <button id="prevBtn" class="nav-arrow-btn" type="button" aria-label="Viñeta anterior">← Anterior</button>
+          <div id="stepDots" class="step-dots"></div>
+          <button id="nextBtn" class="nav-arrow-btn nav-arrow-primary" type="button" aria-label="Siguiente viñeta">Siguiente →</button>
+        </nav>
+
+        <p id="sceneHint" class="scene-hint">
+          Toca los puntos sobre la escena para abrir cada pista.
+        </p>
+      </div>
+
+      <!-- Panel Modo Calibrar (Admin) -->
+      <article id="calibratorPanel" class="card calibrator-panel hidden">
+        <div class="calibrator-header">
+          <div>
+            <strong style="font-size: 15px;">Modo calibrar hotspots (Admin)</strong>
+            <p style="font-size: 12.5px; color: var(--ink-muted);">
+              Arrastra un punto o haz clic sobre el lienzo 9:16 para ajustar sus coordenadas (x%, y%).
+            </p>
+          </div>
+          <label style="font-size: 12.5px; display: flex; align-items: center; gap: 5px; font-weight: 600;">
+            <input id="clickAddsNewChk" type="checkbox" />
+            Clic en escena crea nuevo punto
+          </label>
+        </div>
+
+        <div id="calibratorForm" class="calibrator-grid">
+          <div class="field">
+            <label for="calX">Coordenada X (%)</label>
+            <input id="calX" type="number" min="0" max="100" step="0.5" />
+          </div>
+          <div class="field">
+            <label for="calY">Coordenada Y (%)</label>
+            <input id="calY" type="number" min="0" max="100" step="0.5" />
+          </div>
+          <div class="field">
+            <label for="calCat">Categoría</label>
+            <select id="calCat">
+              <option value="tiempo">Tiempo</option>
+              <option value="presupuesto">Presupuesto</option>
+              <option value="decision">Decisión</option>
+              <option value="nutricion">Nutrición</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="calTitle">Título breve</label>
+            <input id="calTitle" type="text" maxlength="70" />
+          </div>
+          <div class="field full">
+            <label for="calNote">Contexto / impacto</label>
+            <textarea id="calNote" rows="2"></textarea>
+          </div>
+          <div class="field full">
+            <label for="calPrompt">Pista para el equipo (pregunta breve)</label>
+            <textarea id="calPrompt" rows="2"></textarea>
+          </div>
+        </div>
+
+        <div class="calibrator-actions">
+          <button id="addHotspotBtn" class="btn btn-primary btn-sm" type="button">+ Nuevo punto</button>
+          <button id="deleteHotspotBtn" class="btn btn-danger btn-sm" type="button">Eliminar punto</button>
+          <button id="copyJsonBtn" class="btn btn-secondary btn-sm" type="button">Copiar JSON</button>
+          <button id="resetHotspotsBtn" class="btn btn-secondary btn-sm" type="button">Restaurar base</button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
